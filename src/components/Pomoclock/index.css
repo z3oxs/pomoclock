@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap');
 
 body {
-    background-color: rgb(11, 11, 11);
+    background-color: rgb(12, 12, 12);
     transition: all ease 0.5s;
 }
 
@@ -13,26 +13,82 @@ body {
     border-radius: 10px;
 }
 
-.message-box {
-    font: bold 12pt 'Roboto', sans-serif;
+.options h1 {
+    font: bold 20pt 'Roboto', sans-serif;
     color: white;
-    margin-bottom: -90px;
-    padding-top: 10px;
+    margin-bottom: 20px;
+    padding-top: 20px;
+}
+
+.options button {
+    background-color: rgb(22, 22, 22);
+    color: white;
+    font: normal 12pt 'Roboto', sans-serif;
+    border: none;
+    border-radius: 6px;
+    padding: 12px;
+    margin-right: 5px;
+    margin-left: 5px;
+    transition: all ease 0.3s;
+}
+
+.options button:hover {
+    transform: scale(1.1);
+}
+
+#btnN {
+    background-color: #4468ec;
+}
+
+#btnN:hover {
+    background-color: #5576eb;
+}
+
+#btnS,
+#btnP {
+    background-color: rgb(66, 209, 66);
+}
+
+#btnS:hover,
+#btnP:hover {
+    background-color: rgb(80, 238, 80);
+}
+
+#btnL,
+#btnM {
+    background-color: #d83e3e;
+}
+
+#btnL:hover,
+#btnM:hover {
+    background-color: #e26363;
+}
+
+.options hr {
+    margin-top: 30px;
+    width: 85%;
+    border: solid 1px rgb(30, 30, 30);
+}
+
+.message-box {
+    font: bold 10pt 'Roboto', sans-serif;
+    color: white;
+    margin-bottom: -75px;
 }
 
 .timer h1 {
-    font: bold 95pt 'Roboto', sans-serif;
+    font: bold 90pt 'Roboto', sans-serif;
     color: white;
-    margin-bottom: 40px;
+    margin-bottom: 30px;
 }
 
 .timer button {
     background-color: rgb(22, 22, 22);
     color: white;
-    font: normal 14pt 'Roboto', sans-serif;
+    font: normal 13.5pt 'Roboto', sans-serif;
     border: none;
     border-radius: 6px;
-    padding: 16px;
+    padding: 18px;
     margin-right: 5px;
     margin-left: 5px;
     transition: all ease 0.3s;
@@ -68,6 +124,14 @@ body {
 @media (max-width: 760px) {
     .pomodoro-timer {
         width: 95%;
+    }
+
+    .options h1 {
+        font-size: 18pt;
+    }
+
+    .options button {
+        font-size: 11pt;
     }
 
     .message-box {

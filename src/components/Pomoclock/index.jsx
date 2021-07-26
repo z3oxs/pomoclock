@@ -10,39 +10,64 @@ export default function Pomodoro() {
     const [message, setMessage] = useState(false);
     const [status, setStatus] = useState('Work time!');
     const [enabled, setEnabled] = useState(false);
+    const [preset, setPreset] = useState('normal');
     const messageBox = document.querySelector('#message');
+    const buttons = document.querySelectorAll('.btn');
+
+    const presets = {
+        normal: {
+            initial: 25,
+            work: 24,
+            break: 4
+        },
+        short: {
+            initial: 20,
+            work: 19,
+            break: 4
+        },
+        long: {
+            initial: 30,
+            work: 29,
+            break: 9
+        }
+    }
 
     useEffect(() => {
         if (enabled) {
+            buttons.forEach(i => i.style.opacity = '0.5');
+
             if (status === 'Work time!') {
                 document.body.style.backgroundColor = '#ec3434';
                 messageBox.innerHTML = 'Work time!';
+
             } else {
                 document.body.style.backgroundColor = '#3461ff';
             }
 
             document.title = `${minutes < 10 ? `0${minutes}`: minutes}:${seconds < 10 ? `0${seconds}`: seconds} - ${status}`;
 
-            const interval = setInterval(() => {
+            let interval = setInterval(() => {
                 clearInterval(interval);
 
                 if (seconds === 0) {
                     if (minutes !== 0) {
                         setMinutes(minutes - 1);
                         setSeconds(59);
+
                     } else {
                         messageBox.innerHTML = 'Break time!';
-                        
                         beep.play();
+
                         setMessage(!message);
                         setStatus(message ? 'Work time!': 'Break time!');
-                        setMinutes(message ? 24: 4);
+                        setMinutes(message ? presets[preset].work: presets[preset].break);
                         setSeconds(59);
                     }
                 } else {
                     setSeconds(seconds - 1);
                 }
-            }, 1000);
+
+            }, document.hidden ? 500: 1000);
         }
     }, [seconds, enabled]);
     
@@ -51,25 +76,48 @@ export default function Pomodoro() {
             document.body.style.backgroundColor = 'rgb(11, 11, 11)';
             document.title = 'Stopped - Pomoclock';
             messageBox.innerHTML = 'Stopped';
+            buttons.forEach(i => i.style.opacity = '1');
         }
 
         setEnabled(bool);
     }
 
+    function handleTimer(action) {
+        const confirm = window.confirm(`Are you sure you want to ${action} 1 minute?`);
+        setMinutes(confirm && action === 'add' ? minutes + 1: confirm && minutes > 0 ? minutes - 1: minutes);
+    }
+
+    function handlePresets(preset) {
+        const confirm = window.confirm(`Are you sure you want to select ${preset} preset?`);
+
+        if (confirm) {
+            setPreset(preset);
+            setMinutes(presets[preset].initial);
+            setSeconds(0);
+        }
+    }
+
     return (
-        <div className="app">
         <div className="pomodoro-timer">
+            <div className="options">
+                <h1>Presets</h1>
+                <button className="btn" id="btnN" onClick={enabled === false ? () => handlePresets('normal'): ''} title="5 minutes break">Normal</button>
+                <button className="btn" id="btnS" onClick={enabled === false ? () => handlePresets('short'): ''} title="5 minutes break">Short</button>
+                <button className="btn" id="btnL" onClick={enabled === false ? () => handlePresets('long'): ''} title="10 minutes break">Long</button>
+                <hr />
+            </div>
             <div className="message-box">
                 <h1 id="message">Stopped</h1>
             </div>
             <div className="timer">
-                <h1>{minutes < 10 ? `0${minutes}`: minutes}:{seconds < 10 ? `0${seconds}`: seconds}</h1>
-                <button onClick={() => handleEnabled(true)}>Start</button>
-                <button onClick={() => handleEnabled(false)}>Stop</button>
+                <h1 title="Timer">{minutes < 10 ? `0${minutes}`: minutes}:{seconds < 10 ? `0${seconds}`: seconds}</h1>
+                <button onClick={enabled === false ? () => handleEnabled(true): ''} title="Start timer">Start</button>
+                <button onClick={enabled === true ? () => handleEnabled(false): ''} title="Stop timer">Stop</button>
+                <button className="btn" id="btnP" onClick={enabled === false ? () => handleTimer('add'): ''} title="Add 1 minute">+1m</button>
+                <button className="btn" id="btnM" onClick={enabled === false ? () => handleTimer('remove'): ''} title="Remove 1 minute">-1m</button>
                 <br />
-                <input type="text" placeholder="Task" />
+                <input type="text" placeholder="Task" title="Task textbox" />
             </div>
-        </div>
         </div>
     )
 }

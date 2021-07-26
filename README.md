@@ -15,6 +15,8 @@
 - Sound effect when chronometer reachs 0
 - Responsive layout
 - Task annotation
+- Time management
+- Presets
 
 <br><br>
 🔧 Setup:
