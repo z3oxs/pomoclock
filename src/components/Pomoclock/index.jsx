@@ -38,19 +38,6 @@ export default function Pomodoro() {
 
     useEffect(() => {
         if (enabled) {
-            buttons.forEach(i => i.style.opacity = '0.5');
-
-            if (status === 'Work time!') {
-                document.body.style.backgroundColor = '#ec3434';
-                messageBox.innerHTML = `Work time! ${pomodori}° Pomodori`;
-
-            } else {
-                messageBox.innerHTML = pomodori === 4 ? `Long break time! ${pomodori}° Pomodori`: `Short break time! ${pomodori}° Pomodori`;
-                document.body.style.backgroundColor = '#3461ff';
-            }
-
-            document.title = `${minutes < 10 ? `0${minutes}`: minutes}:${seconds < 10 ? `0${seconds}`: seconds} - ${status}`;
-
             let interval = setInterval(() => {
                 clearInterval(interval);
 
@@ -71,8 +58,20 @@ export default function Pomodoro() {
                 } else {
                     setSeconds(seconds - 1);
                 }
-
             }, document.hidden ? 500: 1000);
+
+            buttons.forEach(i => i.style.opacity = '0.5');
+
+            if (status === 'Work time!') {
+                document.body.style.backgroundColor = '#ec3434';
+                messageBox.innerHTML = `Work time! ${pomodori}° Pomodori`;
+
+            } else {
+                messageBox.innerHTML = pomodori === 4 ? `Long break time! ${pomodori}° Pomodori`: `Short break time! ${pomodori}° Pomodori`;
+                document.body.style.backgroundColor = '#3461ff';
+            }
+
+            document.title = `${minutes < 10 ? `0${minutes}`: minutes}:${seconds < 10 ? `0${seconds}`: seconds} - ${status}`;
         }
     }, [seconds, enabled]);
 
