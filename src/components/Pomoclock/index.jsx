@@ -123,5 +123,5 @@ export default function Pomodoro() {
                 <input type="text" placeholder="Task" title="Task textbox" />
             </div>
         </div>
-    )
+    );
 }
