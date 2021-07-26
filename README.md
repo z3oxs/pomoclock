@@ -17,6 +17,7 @@
 - Task annotation
 - Time management
 - Presets
+- Long breaks after 4 pomodoris
 
 <br><br>
 🔧 Setup:
