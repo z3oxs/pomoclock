@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import UIFx from 'uifx';
 import './index.css';
 import file from '../../sounds/beep.mp3';
+const beep = new UIFx(file);
 
 export default function Pomodoro() {
     const [minutes, setMinutes] = useState(25);
@@ -10,7 +11,6 @@ export default function Pomodoro() {
     const [status, setStatus] = useState('Work time!');
     const [enabled, setEnabled] = useState(false);
     const messageBox = document.querySelector('#message');
-    const beep = new UIFx(file);
 
     useEffect(() => {
         if (enabled) {
