@@ -70,6 +70,18 @@ export default function Pomodoro() {
             }, document.hidden ? 500: 1000);
         }
     }, [seconds, enabled]);
+
+    function handlePresets(preset) {
+        if (!enabled) {
+            const confirm = window.confirm(`Are you sure you want to select ${preset} preset?`);
+
+            if (confirm) {
+                setPreset(preset);
+                setMinutes(presets[preset].initial);
+                setSeconds(0);
+            }
+        }
+    }
     
     function handleEnabled(bool) {
         if (!bool) {
@@ -83,17 +95,9 @@ export default function Pomodoro() {
     }
 
     function handleTimer(action) {
-        const confirm = window.confirm(`Are you sure you want to ${action} 1 minute?`);
-        setMinutes(confirm && action === 'add' ? minutes + 1: confirm && minutes > 0 ? minutes - 1: minutes);
-    }
-
-    function handlePresets(preset) {
-        const confirm = window.confirm(`Are you sure you want to select ${preset} preset?`);
-
-        if (confirm) {
-            setPreset(preset);
-            setMinutes(presets[preset].initial);
-            setSeconds(0);
+        if (!enabled) {
+            const confirm = window.confirm(`Are you sure you want to ${action} 1 minute?`);
+            setMinutes(confirm && action === 'add' ? minutes + 1: confirm && minutes > 0 ? minutes - 1: minutes);
         }
     }
 
@@ -101,9 +105,9 @@ export default function Pomodoro() {
         <div className="pomodoro-timer">
             <div className="options">
                 <h1>Presets</h1>
-                <button className="btn" id="btnN" onClick={enabled === false ? () => handlePresets('normal'): ''} title="5 minutes break">Normal</button>
-                <button className="btn" id="btnS" onClick={enabled === false ? () => handlePresets('short'): ''} title="5 minutes break">Short</button>
-                <button className="btn" id="btnL" onClick={enabled === false ? () => handlePresets('long'): ''} title="10 minutes break">Long</button>
+                <button className="btn" id="btnN" onClick={() => handlePresets('normal')} title="5 minutes break">Normal</button>
+                <button className="btn" id="btnS" onClick={() => handlePresets('short')} title="5 minutes break">Short</button>
+                <button className="btn" id="btnL" onClick={() => handlePresets('long')} title="10 minutes break">Long</button>
                 <hr />
             </div>
             <div className="message-box">
@@ -111,10 +115,10 @@ export default function Pomodoro() {
             </div>
             <div className="timer">
                 <h1 title="Timer">{minutes < 10 ? `0${minutes}`: minutes}:{seconds < 10 ? `0${seconds}`: seconds}</h1>
-                <button onClick={enabled === false ? () => handleEnabled(true): ''} title="Start timer">Start</button>
-                <button onClick={enabled === true ? () => handleEnabled(false): ''} title="Stop timer">Stop</button>
-                <button className="btn" id="btnP" onClick={enabled === false ? () => handleTimer('add'): ''} title="Add 1 minute">+1m</button>
-                <button className="btn" id="btnM" onClick={enabled === false ? () => handleTimer('remove'): ''} title="Remove 1 minute">-1m</button>
+                <button onClick={() => handleEnabled(true)} title="Start timer">Start</button>
+                <button onClick={() => handleEnabled(false)} title="Stop timer">Stop</button>
+                <button className="btn" id="btnP" onClick={() => handleTimer('add')} title="Add 1 minute">+1m</button>
+                <button className="btn" id="btnM" onClick={() => handleTimer('remove')} title="Remove 1 minute">-1m</button>
                 <br />
                 <input type="text" placeholder="Task" title="Task textbox" />
             </div>
