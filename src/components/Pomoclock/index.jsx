@@ -3,6 +3,7 @@ import UIFx from 'uifx';
 import './index.css';
 import file from '../../sounds/beep.mp3';
 const beep = new UIFx(file);
+let pomodori = 1;
 
 export default function Pomodoro() {
     const [minutes, setMinutes] = useState(25);
@@ -18,17 +19,20 @@ export default function Pomodoro() {
         normal: {
             initial: 25,
             work: 24,
-            break: 4
+            break: 4,
+            longBreak: 15
         },
         short: {
             initial: 20,
             work: 19,
-            break: 4
+            break: 4,
+            longBreak: 15
         },
         long: {
             initial: 30,
             work: 29,
-            break: 9
+            break: 9,
+            longBreak: 20
         }
     }
 
@@ -38,9 +42,10 @@ export default function Pomodoro() {
 
             if (status === 'Work time!') {
                 document.body.style.backgroundColor = '#ec3434';
-                messageBox.innerHTML = 'Work time!';
+                messageBox.innerHTML = `Work time! ${pomodori}° Pomodori`;
 
             } else {
+                messageBox.innerHTML = pomodori === 4 ? `Long break time! ${pomodori}° Pomodori`: `Short break time! ${pomodori}° Pomodori`;
                 document.body.style.backgroundColor = '#3461ff';
             }
 
@@ -55,12 +60,12 @@ export default function Pomodoro() {
                         setSeconds(59);
 
                     } else {
-                        messageBox.innerHTML = 'Break time!';
+                        pomodori = status === 'Break time!' ? pomodori === 4 ? pomodori = 0 : pomodori += 1: pomodori;
                         beep.play();
-
+                        
                         setMessage(!message);
                         setStatus(message ? 'Work time!': 'Break time!');
-                        setMinutes(message ? presets[preset].work: presets[preset].break);
+                        setMinutes(message ? presets[preset].work: pomodori === 4 ? presets[preset].longBreak: presets[preset].break);
                         setSeconds(59);
                     }
                 } else {
@@ -90,7 +95,7 @@ export default function Pomodoro() {
             messageBox.innerHTML = 'Stopped';
             buttons.forEach(i => i.style.opacity = '1');
         }
-
+        
         setEnabled(bool);
     }
 
@@ -105,9 +110,9 @@ export default function Pomodoro() {
         <div className="pomodoro-timer">
             <div className="options">
                 <h1>Presets</h1>
-                <button className="btn" id="btnN" onClick={() => handlePresets('normal')} title="5 minutes break">Normal</button>
-                <button className="btn" id="btnS" onClick={() => handlePresets('short')} title="5 minutes break">Short</button>
-                <button className="btn" id="btnL" onClick={() => handlePresets('long')} title="10 minutes break">Long</button>
+                <button className="btn" id="btnN" onClick={() => handlePresets('normal')} title="5m short break / 15m long break">Normal</button>
+                <button className="btn" id="btnS" onClick={() => handlePresets('short')} title="5m short break / 15m long break">Short</button>
+                <button className="btn" id="btnL" onClick={() => handlePresets('long')} title="10m short break / 20m long break">Long</button>
                 <hr />
             </div>
             <div className="message-box">
