@@ -4,8 +4,8 @@ import './index.css';
 import file from '../../sounds/beep.mp3';
 
 export default function Pomodoro() {
-    const [minutes, setMinutes] = useState(0);
-    const [seconds, setSeconds] = useState(5);
+    const [minutes, setMinutes] = useState(25);
+    const [seconds, setSeconds] = useState(0);
     const [message, setMessage] = useState(false);
     const [status, setStatus] = useState('Work time!');
     const [enabled, setEnabled] = useState(false);
@@ -36,8 +36,8 @@ export default function Pomodoro() {
                         beep.play();
                         setMessage(!message);
                         setStatus(message ? 'Work time!': 'Break time!');
-                        setMinutes(message ? 24: 0);
-                        setSeconds(5);
+                        setMinutes(message ? 24: 4);
+                        setSeconds(59);
                     }
                 } else {
                     setSeconds(seconds - 1);
