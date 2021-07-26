@@ -1,4 +1,4 @@
-<img src="./images/screenshot.gif" width="700">
+<img src="./images/screenshot.gif" width="650">
 
 <br><br>
 ❓ What is this?
